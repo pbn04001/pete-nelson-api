@@ -7,6 +7,7 @@
     "apollo-server-express": "^2.9.7",
     "express": "^4.17.1",
     "graphql": "^0.13.2",
+    "graphql-playground-middleware-express": "^1.7.12",
     "serverless": "^1.56.1",
     "serverless-http": "^2.3.0",
     "serverless-offline": "^5.12.0",
@@ -15,7 +16,6 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "babel-loader": "^8.0.6",
-    "graphql-playground-middleware-express": "^1.7.12",
     "webpack": "^4.41.2",
     "webpack-node-externals": "^1.7.2"
   },

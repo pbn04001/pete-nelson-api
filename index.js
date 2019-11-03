@@ -18,6 +18,7 @@ const typeDefs = gql`
   type Skill {
     type: SkillType!
     name: String!
+    description: String
   }
   
   type Query {

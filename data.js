@@ -68,7 +68,6 @@ exports.skills = [{
 }, {
     type: SKILL_TYPES.SERVER,
     name: 'Kafka',
-    description: 'Yo'
 }, {
     type: SKILL_TYPES.SERVER,
     name: 'Spark',

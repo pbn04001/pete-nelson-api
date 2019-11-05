@@ -18,6 +18,7 @@ const typeDefs = gql`
   type Skill {
     type: SkillType!
     name: String!
+    location: String @depricated(reason: "Field is no longer available")
   }
   
   type Query {

@@ -18,7 +18,6 @@ const typeDefs = gql`
   type Skill {
     type: SkillType!
     name: String!
-    location: String @deprecated(reason: "Field is no longer available")
   }
   
   type Query {
@@ -29,7 +28,6 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         skills: (obj, args) => {
-            console.log(args)
             if (args.type) {
                 return skills.filter(skill => skill.type === args.type)
             }

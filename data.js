@@ -62,6 +62,7 @@ exports.skills = [{
 }, {
     type: SKILL_TYPES.SERVER,
     name: 'Rest',
+    description: 'Representational State Transfer is an architectural style for distributed hypermedia systems'
 }, , {
     type: SKILL_TYPES.SERVER,
     name: 'Soap',

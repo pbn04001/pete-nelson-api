@@ -26,4 +26,5 @@ functions:
     events:
       - http:
           path: playground
-          method: get
+          method: any
+          cors: true

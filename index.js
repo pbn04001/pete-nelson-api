@@ -18,7 +18,7 @@ const typeDefs = gql`
   type Skill {
     type: SkillType!
     name: String!
-    location: String @depricated(reason: "Field is no longer available")
+    location: String @deprecated(reason: "Field is no longer available")
   }
   
   type Query {
@@ -43,6 +43,6 @@ const index = new ApolloServer({
     resolvers,
     path: '/graphql'
 });index.applyMiddleware({ app });
-app.get('/playground', graphiql({ endpoint: '/graphql' }));
+app.get('/playground', graphiql({ endpoint: '/dev/graphql' }));
 const handler = serverless(app);
 export { handler };

@@ -2,7 +2,7 @@ import express from 'express';
 import serverless from 'serverless-http';
 import graphiql from 'graphql-playground-middleware-express';
 import { ApolloServer, gql } from 'apollo-server-express';
-import { skills, skillTypes } from './data';
+import {jobs, skills, skillTypes} from './data';
 
 const typeDefs = gql`
   enum SkillType {
@@ -15,13 +15,42 @@ const typeDefs = gql`
     ${skillTypes.TESTING}
   }
   
+  enum State {
+    AR
+    CO
+  }
+  
   type Skill {
     type: SkillType!
     name: String!
   }
   
+  type Location {
+    city: String!
+    state: State!
+  }
+  
+  type Date {
+    month: String
+    year: String
+  }
+  
+  type DateRange {
+    from: Date,
+    to: Date
+  }
+  
+  type Job {
+    title: String!
+    company: String!
+    location: Location!
+    dates: [DateRange!]!
+    achievements: [String!]!
+  }
+  
   type Query {
     skills(type: SkillType): [Skill!]!
+    jobs(state: State): [Job!]!
   }
 `;
 
@@ -32,7 +61,14 @@ const resolvers = {
                 return skills.filter(skill => skill.type === args.type)
             }
             return skills
+        },
+        jobs: (obj, args) => {
+            if (args.state) {
+                return jobs.filter(job => job.location.state === args.state)
+            }
+            return jobs
         }
+
     }
 };
 const app = express();

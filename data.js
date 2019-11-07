@@ -281,3 +281,21 @@ exports.jobs = [{
     'Designed and installed signs using FlexiSign.'
   ]
 }]
+
+exports.providers = [{
+  id: 1,
+  name: 'Sam Dude',
+  location: 'Denver, CO'
+}, {
+  id: 2,
+  name: 'Jason Gruff',
+  location: 'New York, NY'
+}, {
+  id: 3,
+  name: 'Grumpy Man',
+  location: 'Cambridge, MA'
+}, {
+  id: 4,
+  name: 'Carl Carlson',
+  location: 'Key West, FL'
+}]

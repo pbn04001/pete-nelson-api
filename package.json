@@ -12,7 +12,9 @@
     "serverless": "^1.56.1",
     "serverless-http": "^2.3.0",
     "serverless-offline": "^5.12.0",
-    "serverless-webpack": "^5.3.1"
+    "serverless-webpack": "^5.3.1",
+    "subscriptions-transport-ws": "^0.9.16",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

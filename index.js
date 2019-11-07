@@ -1,8 +1,11 @@
 import express from 'express';
+const uuidv4 = require('uuid/v4');
 import serverless from 'serverless-http';
 import graphiql from 'graphql-playground-middleware-express';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer, gql, PubSub } from 'apollo-server-express';
 import {jobs, skills, providers, skillTypes} from './data';
+
+const pubSub = new PubSub();
 
 const typeDefs = gql`
   enum SkillType {
@@ -49,6 +52,11 @@ const typeDefs = gql`
     achievements: [String!]!
   }
   
+  type ProviderList {
+    providers: [Provider!]!
+    uuid: String!
+  }
+  
   type Provider {
     id: Int!
     name: String!
@@ -63,8 +71,12 @@ const typeDefs = gql`
   type Query {
     skills(type: SkillType): [Skill!]!
     jobs(state: State): [Job!]!
-    providers: [Provider!]!
+    providers: ProviderList!
     providerPrices: [ProviderPrice!]!
+  }
+  
+  type Subscription {
+    providerPricing(uuid: String!): ProviderPrice!
   }
 `;
 
@@ -87,38 +99,36 @@ const resolvers = {
             return jobs
         },
         providers: () => {
-            return providers
+            const uuid = uuidv4()
+            providers.forEach(provider => {
+                setTimeout(() => {
+                    pubSub.publish(`providerPricing:${uuid}`, {
+                        id: provider.id,
+                        price: randomIntFromInterval(30, 100)
+                    })
+                }, randomIntFromInterval(10000, 13000))
+            })
+            return {
+                providers,
+                uuid
+            }
         },
         providerPrices: () => {
-            let id = 1
             return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve([{
-                        id: 1,
-                        price: randomIntFromInterval(30, 100)
-                    }, {
-                        id: 2,
-                        price: randomIntFromInterval(30, 100)
-                    }, {
-                        id: 3,
-                        price: randomIntFromInterval(30, 100)
-                    }, {
-                        id: 4,
-                        price: randomIntFromInterval(30, 100)
-                    }])
-                }, randomIntFromInterval(3000, 6000))
+                resolve([{
+                    id:  randomIntFromInterval(1, 4),
+                    price: randomIntFromInterval(30, 100)
+                }])
             })
         }
     },
-    /*Provider: {
-        price: (parent, args, ctx, info) => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(randomIntFromInterval(30, 100))
-                }, randomIntFromInterval(3000, 6000))
-            })
+    Subscription: {
+        providerPricing: {
+            subscribe: (uuid) => {
+                return pubSub.asyncIterator(`providerPricing:${uuid}`)
+            }
         }
-    }*/
+    }
 };
 
 const app = express();

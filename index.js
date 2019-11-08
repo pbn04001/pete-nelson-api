@@ -120,7 +120,7 @@ const resolvers = {
                         }
                         console.log('Prices added', result)
                     })
-                }, randomIntFromInterval(2000, 20000))
+                }, randomIntFromInterval(1000, 10000))
             })
             return {
                 providers,

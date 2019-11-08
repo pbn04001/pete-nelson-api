@@ -38,7 +38,7 @@ const resolvers = {
             const uuid = uuidv4()
             providers.forEach(provider => {
                 setTimeout(() => {
-                    const expire = new Date(new Date().getTime() * 60).getTime()
+                    const expire = new Date(new Date().getTime() / 1000).getTime() + 30
                     dynamoDb.put({
                         ...dynamoDbTableParams,
                         Item: {

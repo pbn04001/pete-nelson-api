@@ -55,6 +55,11 @@ export default `
     location: String!
   }
   
+  input NewProvider {
+    name: String!
+    location: String!
+  }
+  
   type ProviderPrice {
     id: Int!
     price: Float!
@@ -65,5 +70,9 @@ export default `
     jobs(state: State): [Job!]!
     providers: ProviderList!
     providerPrices(uuid: String!): [ProviderPrice!]!
+  }
+  
+  type Mutation {
+    addProvider(provider: NewProvider!): Provider
   }
 `

@@ -3,7 +3,7 @@ const uuidv4 = require('uuid/v4');
 import serverless from 'serverless-http';
 import graphiql from 'graphql-playground-middleware-express';
 import { ApolloServer, gql } from 'apollo-server-express';
-import {jobs, skills, providers, skillTypes} from './data';
+import {jobs, skills, providers} from './data';
 import schema from './schema'
 
 const AWS = require('aws-sdk');
@@ -56,8 +56,9 @@ const resolvers = {
                     })
                 }, randomIntFromInterval(1000, 10000))
             })
+
             return {
-                providers,
+                providers: providers,
                 uuid
             }
         },
@@ -103,6 +104,24 @@ const resolvers = {
                     })))
                 })
             })
+        }
+    },
+    Mutation: {
+        addProvider: (obj, args) => {
+            const maxId = providers.reduce((agr, cur) => {
+                if (cur.id > agr) {
+                    return cur.id
+                }
+                return agr
+            }, 0)
+            const newProvider= {
+                id: maxId + 1,
+                ...args.provider,
+            }
+            // Would add to list of providers here,
+            // but with this being serverless and not hooked up to any database,
+            // would be pointless
+            return newProvider
         }
     }
 };

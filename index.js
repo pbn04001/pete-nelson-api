@@ -3,7 +3,7 @@ const uuidv4 = require('uuid/v4');
 import serverless from 'serverless-http';
 import graphiql from 'graphql-playground-middleware-express';
 import { ApolloServer, gql } from 'apollo-server-express';
-import {jobs, skills, providers} from './data';
+import {jobs, skills, providers, complex, complexTasks, complexTaskStatus} from './data';
 import schema from './schema'
 
 const AWS = require('aws-sdk');
@@ -33,6 +33,9 @@ const resolvers = {
                 return jobs.filter(job => job.location.state === args.state)
             }
             return jobs
+        },
+        complex: () => {
+           return complex
         },
         providers: () => {
             const uuid = uuidv4()
@@ -123,7 +126,18 @@ const resolvers = {
             // would be pointless
             return newProvider
         }
+    },
+    Complex: {
+        tasks: () => {
+            return complexTasks;
+        }
+    },
+    Task: {
+        status: (obj, args) => {
+            return complexTaskStatus.find(status => status.id === obj.id).status
+        }
     }
+
 };
 
 const app = express();

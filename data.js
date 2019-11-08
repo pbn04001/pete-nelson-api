@@ -315,3 +315,30 @@ exports.providers = [{
   name: 'Sam Dougal',
   location: 'Nashville, TN'
 }]
+
+exports.complex = {
+  name: 'John Smith',
+  location: 'Dalls, TX',
+}
+
+exports.complexTasks = [{
+  id: 1,
+  task: 'Clean up room'
+}, {
+  id: 2,
+  task: 'Sweep Garage'
+}, {
+  id: 3,
+  task: 'Do Dishes'
+}]
+
+exports.complexTaskStatus = [{
+  id: 1,
+  status: 'Done'
+}, {
+  id: 2,
+  status: 'Finished'
+}, {
+  id: 3,
+  status: 'Started'
+}]

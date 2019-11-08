@@ -1,7 +1,7 @@
 import {skillTypes} from "./data";
 
-export default `
-  enum SkillType {
+const jobSkills = `
+enum SkillType {
     ${skillTypes.LANGUAGE}
     ${skillTypes.UI_FRAMEWORK}
     ${skillTypes.UI}
@@ -43,8 +43,24 @@ export default `
     dates: [DateRange!]!
     achievements: [String!]!
   }
-  
-  type ProviderList {
+`
+
+const complex = `
+    type Task {
+        id: Int!
+        task: String!
+        status: String!
+    }
+
+    type Complex {
+        name: String!
+        location: String!
+        tasks: [Task]
+    }
+`
+
+const providerPricing = `
+    type ProviderList {
     providers: [Provider!]!
     uuid: String!
   }
@@ -64,12 +80,18 @@ export default `
     id: Int!
     price: Float!
   }
-  
+`
+
+export default `
+  ${jobSkills}
+  ${complex}
+  ${providerPricing}
   type Query {
     skills(type: SkillType): [Skill!]!
     jobs(state: State): [Job!]!
     providers: ProviderList!
     providerPrices(uuid: String!): [ProviderPrice!]!
+    complex: Complex!
   }
   
   type Mutation {

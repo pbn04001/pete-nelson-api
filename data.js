@@ -298,4 +298,20 @@ exports.providers = [{
   id: 4,
   name: 'Carl Carlson',
   location: 'Key West, FL'
+}, {
+  id: 5,
+  name: 'Dan Douglas',
+  location: 'Los Angeles, LA'
+}, {
+  id: 6,
+  name: 'Jon Jackson',
+  location: 'Minneapolis, MN'
+}, {
+  id: 7,
+  name: 'Matt Damon',
+  location: 'Dallas, TX'
+}, {
+  id: 8,
+  name: 'Sam Dougal',
+  location: 'Nashville, TN'
 }]

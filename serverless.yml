@@ -12,6 +12,20 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-west-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        Fn::GetAtt:
+          - providerPricingTable
+          - Arn
 
 functions:
   graphql:
@@ -28,3 +42,27 @@ functions:
           path: playground
           method: any
           cors: true
+
+
+resources: # CloudFormation template syntax from here on.
+  Resources:
+    providerPricingTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: providerPricingTable
+        TimeToLiveSpecification:
+          AttributeName: TimeToLive
+          Enabled: true
+        AttributeDefinitions:
+          - AttributeName: PriceUUID
+            AttributeType: S
+          - AttributeName: ProviderId
+            AttributeType: N
+        KeySchema:
+          - AttributeName: PriceUUID
+            KeyType: HASH
+          - AttributeName: ProviderId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

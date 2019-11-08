@@ -2,10 +2,16 @@ import express from 'express';
 const uuidv4 = require('uuid/v4');
 import serverless from 'serverless-http';
 import graphiql from 'graphql-playground-middleware-express';
-import { ApolloServer, gql, PubSub } from 'apollo-server-express';
+import { ApolloServer, gql } from 'apollo-server-express';
 import {jobs, skills, providers, skillTypes} from './data';
 
-const pubSub = new PubSub();
+const AWS = require('aws-sdk');
+
+const dynamoDbTableName = 'providerPricingTable'
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDbTableParams = {
+    TableName: dynamoDbTableName,
+};
 
 const typeDefs = gql`
   enum SkillType {
@@ -72,11 +78,7 @@ const typeDefs = gql`
     skills(type: SkillType): [Skill!]!
     jobs(state: State): [Job!]!
     providers: ProviderList!
-    providerPrices: [ProviderPrice!]!
-  }
-  
-  type Subscription {
-    providerPricing(uuid: String!): ProviderPrice!
+    providerPrices(uuid: String!): [ProviderPrice!]!
   }
 `;
 
@@ -102,31 +104,71 @@ const resolvers = {
             const uuid = uuidv4()
             providers.forEach(provider => {
                 setTimeout(() => {
-                    pubSub.publish(`providerPricing:${uuid}`, {
-                        id: provider.id,
-                        price: randomIntFromInterval(30, 100)
+                    const expire = new Date(new Date().getTime() * 60).getTime()
+                    dynamoDb.put({
+                        ...dynamoDbTableParams,
+                        Item: {
+                            PriceUUID: uuid,
+                            ProviderId: provider.id,
+                            Price: randomIntFromInterval(30, 100),
+                            TimeToLive: expire
+                        }
+                    }, (error, result) => {
+                        if (error) {
+                            console.error(error);
+                            return
+                        }
+                        console.log('Prices added', result)
                     })
-                }, randomIntFromInterval(10000, 13000))
+                }, randomIntFromInterval(2000, 20000))
             })
             return {
                 providers,
                 uuid
             }
         },
-        providerPrices: () => {
+        providerPrices: (obj, args) => {
             return new Promise((resolve) => {
-                resolve([{
-                    id:  randomIntFromInterval(1, 4),
-                    price: randomIntFromInterval(30, 100)
-                }])
+                dynamoDb.query({
+                    ...dynamoDbTableParams,
+                    KeyConditionExpression: "PriceUUID = :PriceUUID",
+                    ExpressionAttributeValues: {
+                        ":PriceUUID": args.uuid
+                    }
+                }, (error, result) => {
+                    if (error) {
+                        console.log(error)
+                        resolve([])
+                        return
+                    }
+
+                    dynamoDb.batchWrite({
+                       RequestItems: {
+                           [dynamoDbTableName]: result.Items.map(item => {
+                               return {
+                                   DeleteRequest: {
+                                       Key: {
+                                           PriceUUID: item.PriceUUID,
+                                           ProviderId: item.ProviderId
+                                       }
+                                   }
+                               }
+                           })
+                       }
+                    }, (error, result) => {
+                        if (error) {
+                            console.log(error)
+                            return
+                        }
+                        console.log('Items deleted', result)
+                    })
+
+                    resolve(result.Items.map(item => ({
+                        id: item.ProviderId,
+                        price: item.Price
+                    })))
+                })
             })
-        }
-    },
-    Subscription: {
-        providerPricing: {
-            subscribe: (uuid) => {
-                return pubSub.asyncIterator(`providerPricing:${uuid}`)
-            }
         }
     }
 };

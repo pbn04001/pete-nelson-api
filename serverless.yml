@@ -29,6 +29,8 @@ provider:
 functions:
   graphql:
     handler: index.handler
+    environment:
+      ENVIRONMENT: ${env:ENVIRONMENT}
     events:
       - http:
           path: graphql
@@ -36,6 +38,8 @@ functions:
           cors: true
   playground:
     handler: index.handler
+    environment:
+      ENVIRONMENT: ${env:ENVIRONMENT}
     events:
       - http:
           path: playground

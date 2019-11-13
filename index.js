@@ -19,6 +19,7 @@ const typeDefs = gql`${schema}`;
 const resolvers = {
     Query: {
         skills: (obj, args) => {
+            console.log('ENV:', process.env.ENVIRONMENT)
             if (args.type) {
                 return skills.filter(skill => skill.type === args.type)
             }

@@ -9,4 +9,6 @@ phases:
       - npm install -g serverless
   build:
     commands:
+      - echo Environment $ENVIRONMENT
+      - echo Stage $STAGE
       - ENVIRONMENT=$ENVIRONMENT serverless deploy --stage $STAGE -v

@@ -7,13 +7,12 @@ import schema from './schema'
 
 const AWS = require('aws-sdk');
 
-// Test
-
-const dynamoDbTableName = 'providerPricingTable'
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const dynamoDbTableParams = {
-    TableName: dynamoDbTableName,
-};
+// Currently not using dynamo
+// const dynamoDbTableName = 'providerPricingTable'
+// const dynamoDb = new AWS.DynamoDB.DocumentClient();
+// const dynamoDbTableParams = {
+//     TableName: dynamoDbTableName,
+// };
 
 const typeDefs = gql`${schema}`;
 

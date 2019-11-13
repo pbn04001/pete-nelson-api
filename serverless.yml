@@ -1,4 +1,4 @@
-service: petenelson-api
+service: serverless-graphql
 plugins:
   - serverless-webpack
   - serverless-offline
@@ -10,7 +10,6 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
-  stage: dev
   region: us-west-2
   iamRoleStatements:
     - Effect: "Allow"

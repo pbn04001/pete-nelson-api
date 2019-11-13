@@ -17,17 +17,17 @@ Resources:
     Properties:
       Runtime: nodejs10
       Handler: index.handler
-      CodeUri: ./
+      CodeUri: .
       Events:
-        - GraphQL:
-            Type: Api
-            Properties:
-              Path: graphql
-              Method: post
-              Cors: true
-        - Playground:
-            Type: Api
-            Properties:
-              Path: playground
-              Method: any
-              Cors: true
+        GraphQL:
+          Type: Api
+          Properties:
+            Path: graphql
+            Method: post
+            Cors: true
+        Playground:
+          Type: Api
+          Properties:
+            Path: playground
+            Method: any
+            Cors: true

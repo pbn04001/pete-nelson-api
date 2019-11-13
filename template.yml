@@ -1,0 +1,33 @@
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: petenelson-api
+    Description: Pete Nelson API
+    Author: petenelson
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: LICENSE.txt
+    ReadmeUrl: README.md
+    Labels: ['api']
+    HomePageUrl: https://github.com/pbn04001/pete-nelson-api
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/pbn04001/pete-nelson-api
+
+Resources:
+  GraphQL:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: nodejs10
+      Handler: index.handler
+      CodeUri: ./
+      Events:
+        - GraphQL:
+            Type: Api
+            Properties:
+              Path: graphql
+              Method: post
+              Cors: true
+        - Playground:
+            Type: Api
+            Properties:
+              Path: playground
+              Method: any
+              Cors: true

@@ -9,4 +9,4 @@ phases:
       - npm install -g serverless
   build:
     commands:
-      - serverless deploy -v --stage ${STAGE} | tee deploy.out
+      - serverless deploy --stage ${STAGE} -v

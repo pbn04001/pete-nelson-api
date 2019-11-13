@@ -9,6 +9,7 @@ const jobSkills = `
     ${skillTypes.DESIGN}
     ${skillTypes.DATABASE}
     ${skillTypes.TESTING}
+    ENVIRONMENT
   }
   
   type Skill {

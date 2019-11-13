@@ -22,7 +22,7 @@ const resolvers = {
             if (args.type) {
                 return skills.filter(skill => skill.type === args.type)
             }
-            return skills
+            return [...skills, {type: 'Environment', name: process.env.ENVIRONMENT }]
         },
         jobs: (obj, args) => {
             if (args.state) {

@@ -39,7 +39,7 @@ const index = new ApolloServer({
     resolvers,
     path: '/graphql'
 });
-const deployedUrl = '/dev' //process.env.ENVIRONMENT === 'PROD' ? '/prod' : '/dev'
+const deployedUrl = process.env.ENVIRONMENT === 'PROD' ? '/prod' : '/dev'
 index.applyMiddleware({ app });
 app.get('/playground', graphiql({ endpoint: `${!process.env.IS_OFFLINE ? deployedUrl : ''}/graphql` }));
 const handler = serverless(app);

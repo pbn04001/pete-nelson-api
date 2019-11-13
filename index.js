@@ -6,6 +6,7 @@ import { jobs, skills } from './data';
 import schema from './schema'
 
 const AWS = require('aws-sdk');
+const env = process.env.ENVIRONMENT
 
 // Currently not using dynamo
 // const dynamoDbTableName = 'providerPricingTable'
@@ -22,7 +23,7 @@ const resolvers = {
             if (args.type) {
                 return skills.filter(skill => skill.type === args.type)
             }
-            return [...skills, {type: 'ENVIRONMENT', name: process.env.ENVIRONMENT || 'NotFound' }]
+            return [...skills, {type: 'ENVIRONMENT', name: env || 'NotFound' }]
         },
         jobs: (obj, args) => {
             if (args.state) {
@@ -39,7 +40,7 @@ const index = new ApolloServer({
     resolvers,
     path: '/graphql'
 });
-const deployedUrl = process.env.ENVIRONMENT === 'PROD' ? '/prod' : '/dev'
+const deployedUrl = env === 'PROD' ? '/prod' : '/dev'
 index.applyMiddleware({ app });
 app.get('/playground', graphiql({ endpoint: `${!process.env.IS_OFFLINE ? deployedUrl : ''}/graphql` }));
 const handler = serverless(app);

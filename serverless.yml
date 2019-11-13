@@ -1,4 +1,4 @@
-service: serverless-graphql
+service: petenelson-api
 plugins:
   - serverless-webpack
   - serverless-offline

@@ -7,7 +7,7 @@ import schema from './schema'
 
 const AWS = require('aws-sdk');
 
-// Test
+// Test2
 
 const dynamoDbTableName = 'providerPricingTable'
 const dynamoDb = new AWS.DynamoDB.DocumentClient();

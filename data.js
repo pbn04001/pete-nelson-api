@@ -281,3 +281,64 @@ exports.jobs = [{
     'Designed and installed signs using FlexiSign.'
   ]
 }]
+
+exports.providers = [{
+  id: 1,
+  name: 'Sam Dude',
+  location: 'Denver, CO'
+}, {
+  id: 2,
+  name: 'Jason Gruff',
+  location: 'New York, NY'
+}, {
+  id: 3,
+  name: 'Grumpy Man',
+  location: 'Cambridge, MA'
+}, {
+  id: 4,
+  name: 'Carl Carlson',
+  location: 'Key West, FL'
+}, {
+  id: 5,
+  name: 'Dan Douglas',
+  location: 'Los Angeles, LA'
+}, {
+  id: 6,
+  name: 'Jon Jackson',
+  location: 'Minneapolis, MN'
+}, {
+  id: 7,
+  name: 'Matt Damon',
+  location: 'Dallas, TX'
+}, {
+  id: 8,
+  name: 'Sam Dougal',
+  location: 'Nashville, TN'
+}]
+
+exports.complex = {
+  name: 'John Smith',
+  location: 'Dalls, TX',
+}
+
+exports.complexTasks = [{
+  id: 1,
+  task: 'Clean up room'
+}, {
+  id: 2,
+  task: 'Sweep Garage'
+}, {
+  id: 3,
+  task: 'Do Dishes'
+}]
+
+exports.complexTaskStatus = [{
+  id: 1,
+  status: 'Done'
+}, {
+  id: 2,
+  status: 'Finished'
+}, {
+  id: 3,
+  status: 'Started'
+}]

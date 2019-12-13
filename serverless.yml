@@ -52,7 +52,7 @@ resources: # CloudFormation template syntax from here on.
     providerPricingTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${env:dynamoTable}
+        TableName: providerPricingTable
         TimeToLiveSpecification:
           AttributeName: TimeToLive
           Enabled: true

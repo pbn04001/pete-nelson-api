@@ -8,7 +8,7 @@ import schema from './schema'
 
 const AWS = require('aws-sdk');
 
-const dynamoDbTableName = 'providerPricingTable'
+const dynamoDbTableName = process.env.ENVIRONMENT === 'PROD' ? 'providerPricingTableProd' : 'providerPricingTable';
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const dynamoDbTableParams = {
     TableName: dynamoDbTableName,

@@ -19,6 +19,7 @@ enum SkillType {
   type Skill {
     type: SkillType!
     name: String!
+    description: String
   }
   
   type Location {
